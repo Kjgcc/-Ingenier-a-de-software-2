@@ -9,5 +9,6 @@
     ],
     "modulePaths": [
         "mods"
-    ]
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
 }
