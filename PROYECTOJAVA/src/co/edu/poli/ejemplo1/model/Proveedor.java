@@ -1,47 +1,26 @@
-package co.edu.poli.ejemplo1.model;
-
-public class Proveedor {
-    private String nombre;
+public class Producto {
+    private String proveedor;
     private String evaluacion;
-    private double calificacion;
+    private int calificacion;
     private String politicaEntrega;
 
     // Constructor privado para el patrón Builder
-    private Proveedor(Builder builder) {
-        this.nombre = builder.nombre;
+    private Producto(Builder builder) {
+        this.proveedor = builder.proveedor;
         this.evaluacion = builder.evaluacion;
         this.calificacion = builder.calificacion;
         this.politicaEntrega = builder.politicaEntrega;
     }
 
-    // Getters
-    public String getNombre() { return nombre; }
-    public String getEvaluacion() { return evaluacion; }
-    public double getCalificacion() { return calificacion; }
-    public String getPoliticaEntrega() { return politicaEntrega; }
-
-    // Método toString mejorado con formato estructurado
-    @Override
-    public String toString() {
-        return "-----------------------------------\n" +
-               "        INFORMACIÓN DEL PROVEEDOR\n" +
-               "-----------------------------------\n" +
-               " Nombre:          " + nombre + "\n" +
-               " Evaluación:      " + evaluacion + "\n" +
-               " Calificación:    " + calificacion + " / 5.0\n" +
-               " Política Entrega:" + politicaEntrega + "\n" +
-               "-----------------------------------";
-    }
-
-    // Clase interna Builder
+    // Clase interna estática Builder
     public static class Builder {
-        private String nombre;
+        private String proveedor;
         private String evaluacion;
-        private double calificacion;
+        private int calificacion;
         private String politicaEntrega;
 
-        public Builder setNombre(String nombre) {
-            this.nombre = nombre;
+        public Builder setProveedor(String proveedor) {
+            this.proveedor = proveedor;
             return this;
         }
 
@@ -50,7 +29,7 @@ public class Proveedor {
             return this;
         }
 
-        public Builder setCalificacion(double calificacion) {
+        public Builder setCalificacion(int calificacion) {
             this.calificacion = calificacion;
             return this;
         }
@@ -60,8 +39,31 @@ public class Proveedor {
             return this;
         }
 
-        public Proveedor build() {
-            return new Proveedor(this);
+        public Producto build() {
+            return new Producto(this);
         }
+    }
+
+    // Método para mostrar la información del producto
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "proveedor='" + proveedor + '\'' +
+                ", evaluación='" + evaluacion + '\'' +
+                ", calificación=" + calificacion +
+                ", política de entrega='" + politicaEntrega + '\'' +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        // Creación de un objeto usando el patrón Builder
+        Producto producto = new Producto.Builder()
+                .setProveedor("Proveedor XYZ")
+                .setEvaluacion("Producto de alta calidad")
+                .setCalificacion(5)
+                .setPoliticaEntrega("Entrega en 24 horas")
+                .build();
+
+        System.out.println(producto);
     }
 }
