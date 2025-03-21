@@ -1,1 +1,47 @@
+package co.edu.poli;
 
+import java.util.ArrayList;
+import java.util.List;
+
+// Interfaz Componente (Común para Empleados y Departamentos)
+interface Componente {
+    void mostrarDetalles();
+}
+
+// Clase Hoja: Empleado
+class Empleado implements Componente {
+    private String nombre;
+    private String cargo;
+
+    public Empleado(String nombre, String cargo) {
+        this.nombre = nombre;
+        this.cargo = cargo;
+    }
+
+    @Override
+    public void mostrarDetalles() {
+        System.out.println("Empleado: " + nombre + ", Cargo: " + cargo);
+    }
+}
+
+// Clase Compuesto: Departamento (puede contener empleados y otros departamentos)
+class Departamento implements Componente {
+    private String nombre;
+    private List<Componente> componentes = new ArrayList<>();
+
+    public Departamento(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void agregarComponente(Componente componente) {
+        componentes.add(componente);
+    }
+
+    @Override
+    public void mostrarDetalles() {
+        System.out.println("Departamento: " + nombre);
+        for (Componente componente : componentes) {
+            componente.mostrarDetalles();
+        }
+    }
+}
