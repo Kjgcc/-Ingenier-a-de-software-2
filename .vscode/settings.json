@@ -1,0 +1,13 @@
+{
+    "type": "java",
+    "request": "launch",
+    "name": "Debug (Java)",
+    "mainClass": "com.ejemplo.Main",
+    "classPaths": [
+        "bin",
+        "lib/*"
+    ],
+    "modulePaths": [
+        "mods"
+    ]
+}
