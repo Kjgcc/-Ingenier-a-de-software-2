@@ -54,7 +54,7 @@ public class Proveedor {
     @Override
     public String toString() {
         return "Proveedor{" +
-                "proveedor='" + proveedor + '\'' +
+                "proveedores ='" + proveedor + '\'' +
                 ", evaluación='" + evaluacion + '\'' +
                 ", calificación=" + calificacion +
                 ", política de entrega='" + politicaEntrega + '\'' +
