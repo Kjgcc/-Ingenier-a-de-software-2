@@ -60,17 +60,7 @@ public class Proveedor {
                 ", política de entrega='" + politicaEntrega + '\'' +
                 '}';
     }
-
-    public static void main(String[] args) {
-        // Creación de un objeto usando el patrón Builder
-        Proveedor proveedor = new Proveedor.Builder()
-                .setProveedor("Proveedor XYZ")
-                .setEvaluacion("Proveedor de alta calidad")
-                .setCalificacion(5)
-                .setPoliticaEntrega("Entrega en 24 horas")
-                .build();
-
-        System.out.println(proveedor);
-    }
 }
-//"Proveedor"
+
+
+
