@@ -1,0 +1,156 @@
+package co.edu.poli.ejemplo1;
+
+interface Prototype<T> {
+    T clonar();
+}
+
+// Clase Producto base
+class Producto implements Prototype<Producto> {
+    private int id;
+    private String nombre;
+    private double precio;
+    private String tipo;
+
+    public Producto(int id, String nombre, double precio, String tipo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+    }
+
+    public int getId() { return id; }
+    public String getNombre() { return nombre; }
+    public double getPrecio() { return precio; }
+    public String getTipo() { return tipo; }
+
+    @Override
+    public Producto clonar() {
+        return new Producto(this.id, this.nombre, this.precio, this.tipo);
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{id=" + id + ", nombre='" + nombre + "', precio=" + precio + ", tipo='" + tipo + "'}";
+    }
+}
+
+// Producto Alimenticio
+class ProductoAlimenticio extends Producto implements Prototype<ProductoAlimenticio> {
+    private String fechaExpiracion;
+    private int aporteCalorico;
+
+    public ProductoAlimenticio(int id, String nombre, double precio, String fechaExpiracion, int aporteCalorico) {
+        super(id, nombre, precio, "Alimenticio");
+        this.fechaExpiracion = fechaExpiracion;
+        this.aporteCalorico = aporteCalorico;
+    }
+
+    @Override
+    public ProductoAlimenticio clonar() {
+        return new ProductoAlimenticio(getId(), getNombre(), getPrecio(), this.fechaExpiracion, this.aporteCalorico);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Fecha Expiración: " + fechaExpiracion + ", Aporte Calórico: " + aporteCalorico + " kcal";
+    }
+}
+
+// Producto Eléctrico
+class ProductoElectrico extends Producto implements Prototype<ProductoElectrico> {
+    private int voltaje;
+    private String marca;
+
+    public ProductoElectrico(int id, String nombre, double precio, int voltaje, String marca) {
+        super(id, nombre, precio, "Electrico");
+        this.voltaje = voltaje;
+        this.marca = marca;
+    }
+
+    @Override
+    public ProductoElectrico clonar() {
+        return new ProductoElectrico(getId(), getNombre(), getPrecio(), this.voltaje, this.marca);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Voltaje=" + voltaje + ", Marca='" + marca + "'";
+    }
+}
+
+// Interfaz de pagos
+interface IPayment {
+    void pay(Producto producto);
+}
+
+// Servicio de Nequi
+class NequiPayment {
+    public void sendMoney(double amount) {
+        System.out.println("Pago de $" + amount + " realizado por Nequi.");
+    }
+}
+
+// Servicio de PSP
+class PspPayment {
+    public void processTransaction(double amount) {
+        System.out.println("Pago de $" + amount + " realizado por PSP.");
+    }
+}
+
+// Adaptador de Nequi
+class NequiAdapter implements IPayment {
+    private NequiPayment nequi;
+
+    public NequiAdapter(NequiPayment nequi) {
+        this.nequi = nequi;
+    }
+
+    @Override
+    public void pay(Producto producto) {
+        System.out.println("Comprando " + producto.getNombre() + " por $" + producto.getPrecio() + " usando Nequi.");
+        nequi.sendMoney(producto.getPrecio());
+    }
+}
+
+// Adaptador de PSP
+class PspAdapter implements IPayment {
+    private PspPayment psp;
+
+    public PspAdapter(PspPayment psp) {
+        this.psp = psp;
+    }
+
+    @Override
+    public void pay(Producto producto) {
+        System.out.println("Comprando " + producto.getNombre() + " por $" + producto.getPrecio() + " usando PSP.");
+        psp.processTransaction(producto.getPrecio());
+    }
+}
+
+// Clase principal renombrada a "Pagos"
+public class Pagos {
+    public static void main(String[] args) {
+        // Crear productos
+        ProductoAlimenticio pizza = new ProductoAlimenticio(1, "Pizza", 12.99, "2025-04-10", 800);
+        ProductoElectrico laptop = new ProductoElectrico(2, "Laptop", 1200.00, 220, "Dell");
+
+        // Clonar productos
+        ProductoAlimenticio pizzaCopia = pizza.clonar();
+        ProductoElectrico laptopCopia = laptop.clonar();
+
+        // Mostrar productos clonados
+        System.out.println("Producto original: " + pizza);
+        System.out.println("Producto clonado: " + pizzaCopia);
+
+        System.out.println("Producto original: " + laptop);
+        System.out.println("Producto clonado: " + laptopCopia);
+
+        // Crear métodos de pago con adaptadores
+        IPayment nequiPayment = new NequiAdapter(new NequiPayment());
+        IPayment pspPayment = new PspAdapter(new PspPayment());
+
+        // Realizar pagos
+        nequiPayment.pay(pizza);
+        pspPayment.pay(laptop);
+    }
+}
