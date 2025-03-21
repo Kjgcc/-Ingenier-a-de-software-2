@@ -45,3 +45,38 @@ class Departamento implements Componente {
         }
     }
 }
+
+
+package co.edu.poli;
+
+//Clase Principal
+public class Main {
+ public static void main(String[] args) {
+     // Crear empleados
+     Empleado emp1 = new Empleado("Juan", "Desarrollador");
+     Empleado emp2 = new Empleado("Maria", "Diseñadora");
+     Empleado emp3 = new Empleado("Carlos", "Gerente de Ventas");
+
+     // Crear departamentos
+     Departamento tecnologia = new Departamento("Tecnología");
+     Departamento ventas = new Departamento("Ventas");
+     Departamento recursosHumanos = new Departamento("Recursos Humanos");
+
+     // Agregar empleados a varios departamentos
+     tecnologia.agregarComponente(emp1);
+     tecnologia.agregarComponente(emp2);
+     ventas.agregarComponente(emp1);  // Juan también está en Ventas
+     ventas.agregarComponente(emp3);
+     recursosHumanos.agregarComponente(emp2);  // Maria también está en RRHH
+
+     // Crear departamento principal y agregar subdepartamentos
+     Departamento empresa = new Departamento("Empresa");
+     empresa.agregarComponente(tecnologia);
+     empresa.agregarComponente(ventas);
+     empresa.agregarComponente(recursosHumanos);
+
+     // Mostrar estructura completa
+     System.out.println("=== Estructura de la Empresa ===");
+     empresa.mostrarDetalles();
+ }
+}
